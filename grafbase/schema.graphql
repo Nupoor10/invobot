@@ -1,0 +1,42 @@
+type Item {
+  id: ID!
+  productCode: String!
+  name: String!
+  description: String!
+  manufacturer: String!
+  seller: String!
+  quantity: Int!
+  price: Float!
+}
+
+# Defining input for creating a new product
+input AddStockInput {
+  productCode: String!
+  name: String!
+  description: String!
+  manufacturer: String!
+  seller: String!
+  quantity: Int!
+  price: Float!
+}
+
+input UpdateStockInput {
+  quantity: Int!
+}
+
+extend type Mutation {
+  createItem(input: AddStockInput!): Item
+    @resolver(name: "add-stock")
+  updateItem(productCode: String!, input: UpdateStockInput!): Item
+    @resolver(name: "update-stock")
+  deleteItem(productCode: String!): Boolean @resolver(name: "delete-stock")
+}
+
+extend type Query {
+  stock(limit: Int = 10): [Item] @resolver(name: "get-stock")
+  item(productCode: String!): Item @resolver(name: "get-item")
+}
+
+# Start your backend
+# https://grafbase.com/docs/cli
+# npx grafbase dev
