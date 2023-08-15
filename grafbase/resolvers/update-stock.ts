@@ -29,7 +29,7 @@ export default async function UpdateStockResolver(_, { productCode, input }) {
 
         if (document === null) return null;
 
-        const updatedDoc = await fetch(`${baseUrl}/action/updateOne`, {
+        await fetch(`${baseUrl}/action/updateOne`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -51,7 +51,8 @@ export default async function UpdateStockResolver(_, { productCode, input }) {
         });
 
         return {
-            ...updatedDoc
+            ...document,
+            ...input
         };
     } catch (err) {
         return null;
